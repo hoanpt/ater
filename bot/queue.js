@@ -1,6 +1,5 @@
 /**
- * Queue & History Manager
- * Reads 100 X Posts & 100 Comments from data.js and manages history.json
+ * Queue & History Manager (Supports X Premium Long-Form Posts)
  */
 
 const fs = require('fs');
@@ -36,16 +35,17 @@ class QueueManager {
     fs.writeFileSync(this.historyFile, JSON.stringify(this.history, null, 2), 'utf8');
   }
 
-  getNextPost() {
-    const allPosts = this.data.xPosts;
+  getNextPost(isPremium = false) {
+    const allPosts = isPremium && this.data.xPremiumPosts && this.data.xPremiumPosts.length > 0 
+      ? this.data.xPremiumPosts 
+      : this.data.xPosts;
+      
     const postedIds = new Set(this.history.postedPostIds || []);
 
-    // Find first post not yet in history
     let nextPost = allPosts.find(p => !postedIds.has(p.id));
 
-    // If all posts have been posted, reset queue cycle
     if (!nextPost) {
-      console.log('🔄 All 100 posts have been posted! Resetting queue for a fresh cycle.');
+      console.log('🔄 All posts in current pool have been posted! Resetting queue cycle.');
       this.history.postedPostIds = [];
       this.saveHistory();
       nextPost = allPosts[0];
@@ -70,19 +70,22 @@ class QueueManager {
   getStats() {
     const totalPosts = this.data.xPosts.length;
     const totalComments = this.data.kolComments.length;
+    const totalPremium = (this.data.xPremiumPosts || []).length;
     const postedCount = (this.history.postedPostIds || []).length;
-    const remainingCount = totalPosts - postedCount;
+    const remainingCount = totalPosts + totalPremium - postedCount;
     const totalSessions = (this.history.sessions || []).length;
     const totalReplies = (this.history.sessions || []).reduce((acc, s) => acc + (s.replies ? s.replies.length : 0), 0);
 
     return {
       totalPosts,
       totalComments,
+      totalPremium,
       postedCount,
       remainingCount,
       totalSessions,
       totalReplies,
-      nextPostId: this.getNextPost()?.id
+      nextStandardPostId: this.getNextPost(false)?.id,
+      nextPremiumPostId: this.getNextPost(true)?.id
     };
   }
 }

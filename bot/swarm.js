@@ -1,6 +1,5 @@
 /**
- * Master-Worker Swarm Orchestrator
- * Coordinates Main post and delayed Clone comments
+ * Master-Worker Swarm Orchestrator (X Premium Long-Form Supported)
  */
 
 const fs = require('fs');
@@ -16,6 +15,7 @@ class SwarmOrchestrator {
     this.config = this.loadConfig();
     this.queue = new QueueManager(this.projectDir);
     this.isDryRun = options.isDryRun || false;
+    this.isPremium = options.isPremium !== undefined ? options.isPremium : (this.config.master.isPremium || false);
 
     this.masterClient = new TwitterClient(this.config.master);
     this.cloneClients = (this.config.clones || []).map(c => ({
@@ -35,7 +35,6 @@ class SwarmOrchestrator {
     return JSON.parse(fs.readFileSync(this.configFile, 'utf8'));
   }
 
-  // Generates randomized delay in milliseconds
   calculateDelay(minMinutes, maxMinutes) {
     const min = minMinutes || 2;
     const max = maxMinutes || 8;
@@ -44,7 +43,7 @@ class SwarmOrchestrator {
   }
 
   async runEngagementSession() {
-    const post = this.queue.getNextPost();
+    const post = this.queue.getNextPost(this.isPremium);
     if (!post) {
       console.log('❌ No post available in queue.');
       return;
@@ -52,13 +51,13 @@ class SwarmOrchestrator {
 
     console.log('\n======================================================');
     console.log(`🚀 [SWARM SESSION START] ${new Date().toISOString()}`);
-    console.log(`📌 Post ID: ${post.id} | Topic: ${post.category.toUpperCase()}`);
+    console.log(`📌 Post ID: ${post.id} | Topic: ${post.category.toUpperCase()} | Mode: ${this.isPremium ? '💎 X PREMIUM (LONG-FORM)' : '📝 STANDARD'}`);
     console.log(`📝 Title: ${post.title}`);
-    console.log(`🤖 Mode: ${this.isDryRun ? 'DRY-RUN (SIMULATION)' : 'LIVE EXECUTION'}`);
+    console.log(`🤖 Environment: ${this.isDryRun ? 'DRY-RUN (SIMULATION)' : 'LIVE PRODUCTION'}`);
     console.log('======================================================\n');
 
     // Step 1: Master Account Posts
-    console.log(`[1/3] 👑 Master Account [@${this.config.master.name}] posting main tweet...`);
+    console.log(`[1/3] 👑 Master Account [@${this.config.master.name}] publishing post (${post.content.length} chars)...`);
     const masterResult = await this.masterClient.postTweet(post.content, this.isDryRun);
 
     if (!masterResult.success) {
@@ -69,7 +68,7 @@ class SwarmOrchestrator {
     const tweetId = masterResult.data.id;
     console.log(`✅ Master Tweet published successfully!`);
     console.log(`   Tweet ID: ${tweetId}`);
-    console.log(`   Preview: "${post.content.slice(0, 80).replace(/\n/g, ' ')}..."\n`);
+    console.log(`   Preview: "${post.content.slice(0, 100).replace(/\n/g, ' ')}..."\n`);
 
     // Step 2: Match comments for each clone
     const cloneCount = this.cloneClients.length;
@@ -104,13 +103,13 @@ class SwarmOrchestrator {
       postId: post.id,
       postTitle: post.title,
       postCategory: post.category,
+      isPremium: this.isPremium,
       tweetId: tweetId,
       timestamp: new Date().toISOString(),
       replies: []
     };
 
     if (this.isDryRun) {
-      // In dry-run, simulate instant execution for testing
       for (const item of plannedReplies) {
         console.log(`\n   [DRY-RUN SIMULATION] ⏳ Fast-forwarding ${item.delayMins} minutes...`);
         console.log(`   🤖 [@${item.cloneObj.config.name}] replies to Tweet #${tweetId}`);
@@ -131,7 +130,6 @@ class SwarmOrchestrator {
       console.log(`📊 All ${plannedReplies.length} clones successfully stimulated and recorded to history.json!\n`);
       return sessionHistory;
     } else {
-      // In live execution, schedule actual setTimeout timers
       plannedReplies.forEach((item) => {
         setTimeout(async () => {
           console.log(`\n⏰ Timer triggered: [@${item.cloneObj.config.name}] posting scheduled reply...`);

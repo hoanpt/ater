@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asteroid ($ASTEROID) — 1-Click Shill & Raid Hub (280-Char Verified)</title>
+  <title>Asteroid ($ASTEROID) — 1-Click Shill Hub & Admin Swarm Control</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260820_2">
+  <link rel="stylesheet" href="styles.css?v=20260821_3">
 </head>
 <body>
 
@@ -17,18 +17,26 @@
   </div>
 
   <div class="container">
+    <!-- Top Nav Bar with Admin Trigger -->
+    <div class="top-navbar">
+      <button class="btn-admin-nav" id="btn-open-admin">
+        🔐 Admin & Swarm Control
+      </button>
+    </div>
+
     <!-- Header -->
     <header>
       <div class="badge-row">
         <span class="badge badge-space">🛸 SpaceX September Landing</span>
         <span class="badge badge-dog">🐶 Aug 26 International Dog Day</span>
-        <span class="badge badge-bsc">⚡ 100% Strictly &le; 280 Chars</span>
+        <span class="badge badge-bsc">⚡ BNB Smart Chain</span>
+        <span class="badge badge-premium">💎 X Premium Long-Form Supported</span>
       </div>
 
       <h1 class="main-title">ASTEROID SHILL & RAID HUB</h1>
       <p class="subtitle">
         Official media space station for <strong>$ASTEROID</strong> (Asteroid Shiba Plush). 
-        <strong>200 total templates</strong> (100 X Posts + 100 KOL Comments) optimized strictly under 280 characters for standard X accounts!
+        1-Click to copy X posts, KOL raid replies, and X Premium long-form deep-dives!
       </p>
 
       <!-- CA Box -->
@@ -64,7 +72,7 @@
     <!-- Random Raid Banner -->
     <div class="random-raid-card">
       <div class="random-raid-info">
-        <h3>⚡ Lightning KOL Raid Generator (100 Templates)</h3>
+        <h3>⚡ Lightning KOL Raid Generator</h3>
         <p>Click the button to instantly copy a randomized raid comment (&le; 280 chars) with official links and hashtags!</p>
       </div>
       <button class="btn-random" id="btn-random-raid">
@@ -72,16 +80,20 @@
       </button>
     </div>
 
-    <!-- Navigation Tabs -->
+    <!-- Navigation Tabs (3 Dedicated Sections) -->
     <div class="tabs-wrapper">
       <div class="tabs-container">
         <button class="tab-btn active" id="tab-xposts">
-          📝 X (Twitter) Posts
+          📝 X Posts (&le; 280)
           <span class="tab-count" id="count-xposts">100</span>
         </button>
         <button class="tab-btn" id="tab-kol">
-          💬 KOL Raid Replies
+          💬 KOL Raid Replies (&le; 280)
           <span class="tab-count" id="count-kol">100</span>
+        </button>
+        <button class="tab-btn premium-tab" id="tab-premium">
+          💎 X Premium (Long-Form)
+          <span class="tab-count" id="count-premium">8</span>
         </button>
       </div>
     </div>
@@ -91,7 +103,7 @@
       <div class="search-row">
         <div class="search-input-wrapper">
           <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="search-input" class="search-input" placeholder="Search by keyword (SpaceX, Dog Day, Dividends, CTO, PancakeSwap, SAFU...)...">
+          <input type="text" id="search-input" class="search-input" placeholder="Search by keyword (SpaceX, Dog Day, Dividends, CTO, PancakeSwap, SAFU, Roadmap...)...">
         </div>
       </div>
       <div class="filters-row">
@@ -110,17 +122,89 @@
     <div class="cards-grid" id="cards-container"></div>
   </div>
 
+  <!-- Admin Login Modal -->
+  <div class="modal-overlay" id="modal-admin-login">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>🔐 Admin Access Required</h2>
+        <button class="btn-close-modal" onclick="closeAdminModals()">&times;</button>
+      </div>
+      <form id="form-admin-login" onsubmit="handleAdminLogin(event)">
+        <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 0.9rem;">
+          Enter your admin passcode to access the Multi-Account Swarm Bot controller and account settings.
+        </p>
+        <div class="form-group">
+          <label for="admin-passcode">Admin Passcode</label>
+          <input type="password" id="admin-passcode" class="form-input" placeholder="Enter passcode (Default: asteroid2026)" required autofocus>
+        </div>
+        <button type="submit" class="btn-primary">Unlock Swarm Control Panel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Control Dashboard Modal -->
+  <div class="modal-overlay" id="modal-admin-dashboard">
+    <div class="modal-card admin-dashboard">
+      <div class="modal-header">
+        <h2>🤖 Multi-Account Swarm Control Center</h2>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button onclick="handleAdminLogout()" style="background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700;">Logout</button>
+          <button class="btn-close-modal" onclick="closeAdminModals()">&times;</button>
+        </div>
+      </div>
+
+      <!-- Quick Swarm Triggers -->
+      <div class="admin-section">
+        <h3>⚡ Live Swarm Actions</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 14px;">
+          Master account posts a tweet, and active clone accounts will automatically post contextual replies with randomized delays.
+        </p>
+        <div class="swarm-actions-grid">
+          <button class="btn-swarm-action" onclick="runBrowserSwarmSimulation()">
+            🎲 Run Live Simulation (Browser)
+          </button>
+          <button class="btn-swarm-action" onclick="copyCliCommand('--post-now')">
+            📋 Copy CLI Trigger Command
+          </button>
+          <button class="btn-swarm-action" onclick="copyCliCommand('--schedule 3')">
+            ⏰ Copy Background Scheduler Command
+          </button>
+          <button class="btn-swarm-action danger" onclick="resetSwarmHistory()">
+            🔄 Reset Queue Cycle
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Console -->
+      <div class="admin-section">
+        <h3>📟 Swarm Live Event Console</h3>
+        <div class="console-box" id="admin-console">Asteroid Swarm Engine initialized. Ready for simulation or live execution...</div>
+      </div>
+
+      <!-- Account Configuration Helper -->
+      <div class="admin-section">
+        <h3>👥 Configured Swarm Accounts</h3>
+        <div style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+          <p>👑 <strong>Master Account:</strong> <code>@Main_Official_Asteroid</code> (Supports X Premium Long-Form Posts)</p>
+          <p>🤖 <strong>Clone 1:</strong> <code>@SpaceShibaArmy_1</code> (Delay: 2–5 mins)</p>
+          <p>🤖 <strong>Clone 2:</strong> <code>@BscGemHunter_2</code> (Delay: 6–12 mins)</p>
+          <p>🤖 <strong>Clone 3:</strong> <code>@PolarisShiba_3</code> (Delay: 15–25 mins)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Footer -->
   <footer>
     <p>🚀 <strong>$ASTEROID (Asteroid Shiba Plush)</strong> — Community Takeover (CTO) on BNB Smart Chain</p>
-    <p>100 X Posts + 100 KOL Comments (&le; 280 Characters Verified) &bull; Receipts, not promises.</p>
+    <p>100 X Posts + 100 KOL Comments + 8 X Premium Long-Form Analyses &bull; Receipts, not promises.</p>
   </footer>
 
   <!-- Scripts with cache buster -->
-  <script src="data.js?v=20260820_2"></script>
-  <script src="app.js?v=20260820_2"></script>
+  <script src="data.js?v=20260821_3"></script>
+  <script src="app.js?v=20260821_3"></script>
 </body>
 </html>
