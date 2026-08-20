@@ -1,0 +1,46 @@
+{
+  "master": {
+    "name": "Main_Official_Asteroid",
+    "appKey": "YOUR_MASTER_API_KEY",
+    "appSecret": "YOUR_MASTER_API_SECRET",
+    "accessToken": "YOUR_MASTER_ACCESS_TOKEN",
+    "accessSecret": "YOUR_MASTER_ACCESS_SECRET"
+  },
+  "clones": [
+    {
+      "id": "clone-1",
+      "name": "SpaceShibaArmy_1",
+      "minDelayMinutes": 2,
+      "maxDelayMinutes": 5,
+      "appKey": "YOUR_CLONE1_API_KEY",
+      "appSecret": "YOUR_CLONE1_API_SECRET",
+      "accessToken": "YOUR_CLONE1_ACCESS_TOKEN",
+      "accessSecret": "YOUR_CLONE1_ACCESS_SECRET"
+    },
+    {
+      "id": "clone-2",
+      "name": "BscGemHunter_2",
+      "minDelayMinutes": 6,
+      "maxDelayMinutes": 12,
+      "appKey": "YOUR_CLONE2_API_KEY",
+      "appSecret": "YOUR_CLONE2_API_SECRET",
+      "accessToken": "YOUR_CLONE2_ACCESS_TOKEN",
+      "accessSecret": "YOUR_CLONE2_ACCESS_SECRET"
+    },
+    {
+      "id": "clone-3",
+      "name": "PolarisShiba_3",
+      "minDelayMinutes": 15,
+      "maxDelayMinutes": 25,
+      "appKey": "YOUR_CLONE3_API_KEY",
+      "appSecret": "YOUR_CLONE3_API_SECRET",
+      "accessToken": "YOUR_CLONE3_ACCESS_TOKEN",
+      "accessSecret": "YOUR_CLONE3_ACCESS_SECRET"
+    }
+  ],
+  "settings": {
+    "defaultIntervalHours": 3,
+    "jitterMinutes": 15,
+    "loopWhenFinished": true
+  }
+}

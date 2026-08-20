@@ -1,0 +1,10 @@
+# Environment & Account secrets
+accounts.config.json
+.env
+
+# Runtime logs and history
+history.json
+*.log
+
+# Node dependencies (if any added)
+node_modules/
