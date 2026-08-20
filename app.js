@@ -1,6 +1,5 @@
-
-/**
- * Asteroid Raid & Shill Hub - Interactive Logic (100% English)
+﻿/**
+ * Asteroid Raid & Shill Hub - Interactive Logic (100% English & 280-Char Verified)
  */
 
 let currentTab = 'xPosts'; // 'xPosts' or 'kolComments'
@@ -83,7 +82,7 @@ function renderCards() {
     container.innerHTML = `
       <div class="empty-state">
         <h3>🔍 No matching templates found</h3>
-        <p>Try searching with another keyword or reset the category filter to view all 100 templates.</p>
+        <p>Try searching with another keyword or reset the category filter to view all templates.</p>
       </div>
     `;
     return;
@@ -103,12 +102,15 @@ function renderCards() {
             <div class="card-title">${item.title}</div>
             <div class="card-tags">
               <span class="tag ${tagClass}">${tagLabel}</span>
+              <span class="tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">&le; 280</span>
             </div>
           </div>
           <pre class="card-body">${escapeHtml(item.content)}</pre>
         </div>
         <div class="card-footer">
-          <div class="char-counter">📊 ${charCount} chars</div>
+          <div class="char-counter" style="color: #34d399; font-weight: 600;">
+            📊 ${charCount}/280 chars
+          </div>
           <div class="card-actions">
             ${isXPost ? `
               <a href="${tweetIntentUrl}" target="_blank" rel="noopener noreferrer" class="btn-post-x" title="Post directly to X">
